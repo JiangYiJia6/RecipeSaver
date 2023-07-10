@@ -5,18 +5,28 @@
 //  Created by Yijia Jiang on 2023-07-07.
 //
 
+
 import SwiftUI
 
 struct NewRecipeView: View {
+    @State private var showAddRecipe = false
+    
     var body: some View {
         NavigationView {
-            Text("New Recipe")
-                .navigationTitle("New Recipe")
+            Button("Add recipe manualy") {
+                showAddRecipe = true
+            }
+            .navigationTitle("New Recipes")
         }
         .navigationViewStyle(.stack)
+        .sheet(isPresented: $showAddRecipe){
+                AddRecipeView()
+        }
     }
 }
 
-#Preview {
-    NewRecipeView()
+struct NewRecipeView_Previews: PreviewProvider {
+    static var previews: some View {
+        NewRecipeView()
+    }
 }

@@ -7,7 +7,8 @@
 
 import Foundation
 
-enum Category: String {
+enum Category: String,CaseIterable,Identifiable {
+    var id: String {self.rawValue}
     case breakfast = "Breakfast"
     case soup = "Soup"
     case salade = "Salad"
@@ -144,13 +145,13 @@ extension Recipe{
         Recipe(
             name:"World-Famous Banini",
 
-            image:"https://hips.hearstapps.com/hmg-prod/images/screen-shot-2022-04-22-at-12-10-07-pm-1650643813.png?crop=0.526xw:0.524xh;0.272xw,0.258xh&resize=980:*",
+            image:"https://images.squarespace-cdn.com/content/v1/55b2f407e4b043b8268169d7/1441664982606-4JX61ATPUVRICK5MCWIO/image-asset.jpeg?format=500w",
             description:"Protein-rich lentils plus meaty mushrooms sub in for beef in this cozy sauce. Who says comfort food can't be plant-based?",
             
             ingredients:"Soy Sauce Marinara Sauce Olive Oil Seasonings Firm or Extra Firm Tofu Spaghetti Noodles",
            
             direction:"In a large bowl, add the soy sauce, 2 tablespoons of the marinara, olive oil, smoked paprika, garlic powder and onion powder. Stir well with a large spoon or whisk. Crumble the tofu into the bowl. You can use your hands but I usually use a potato masher to mash it, which also crumbles it. Stir the tofu crumbles into the sauce. Place in the oven and bake for 25-40 minutes until chewy, but be careful not to burn it. They are done when they have turned golden brown, are chewy and there is no water on the pan. You can stir them a few times if the edges start to burn.",
-            category:"Main",
+            category:"Drink",
             datePublished:"2023-07-01",
             url:"https://www.goodhousekeeping.com/food-recipes/healthy/g807/vegan-recipes/"
             ),
