@@ -8,22 +8,24 @@
 import SwiftUI
 
 struct AddRecipeView: View {
-    @State private var name: String=""
+    @State private var name: String = ""
     @State private var selectedCategory: Category = Category.main
-    @State private var description: String=""
-    @State private var ingredients: String=""
-    @State private var deirections: String=""
+    @State private var description: String = ""
+    @State private var ingridients: String = ""
+    @State private var directions: String = ""
+    @State private var navigateToRecipe = false
     
-    @Environment(\.dismiss)var dismiss
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
         NavigationView{
             Form{
                 Section(header: Text("Name")){
-                    TextField("Recipe Name", text: $name)
+                    TextField("Recipe name", text: $name)
                 }
                 Section(header: Text("Category")){
                     Picker("Category", selection: $selectedCategory) {
-                        ForEach(Category.allCases){category in
+                        ForEach(Category.allCases) {category in
                             Text(category.rawValue)
                                 .tag(category)
                         }
@@ -31,36 +33,40 @@ struct AddRecipeView: View {
                     .pickerStyle(.menu)
                 }
                 Section(header: Text("Description")){
-                    TextEditor(text: $deirections)
+                    TextEditor(text: $description)
                 }
                 Section(header: Text("Ingredients")){
-                    TextEditor(text: $ingredients)
+                    TextEditor(text: $ingridients)
                 }
-                Section(header: Text("Direction")){
-                    TextEditor(text: $deirections)
+                Section(header: Text("Directions")){
+                    TextEditor(text: $directions)
                 }
             }
             .toolbar(content: {
-                            ToolbarItem(placement: .navigationBarLeading) {
-                                Button {
-                                    dismiss()
-                                } label: {
-                                    Label("Cancel", systemImage: "xmark")
-                                        .labelStyle(.iconOnly)
-                                }
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Label("Cancel", systemImage: "xmark")
+                            .labelStyle(.iconOnly)
+                    }
 
-                            }
-                            
-                            ToolbarItem {
-                                
-                                Button {
-                                    
-                                } label: {
-                                    Label("Done", systemImage: "checkmark")
-                                        .labelStyle(.iconOnly)
-                                }
-                                .disabled(name.isEmpty)
-                            }
+                }
+                
+                ToolbarItem {
+                    NavigationLink(isActive: $navigateToRecipe) {
+                        RecipeView(recipe: Recipe.all.sorted{$0.datePublished > $1.datePublished}[0])
+                            .navigationBarBackButtonHidden(true)
+                    } label: {
+                        Button {
+                            navigateToRecipe = true
+                        } label: {
+                            Label("Done", systemImage: "checkmark")
+                                .labelStyle(.iconOnly)
+                        }
+                    }
+                    .disabled(name.isEmpty)
+                }
             })
             .navigationTitle("New Recipe")
             .navigationBarTitleDisplayMode(.inline)
@@ -69,6 +75,20 @@ struct AddRecipeView: View {
     }
 }
 
-#Preview {
-    AddRecipeView()
+struct AddRecipeView_Previews: PreviewProvider {
+    static var previews: some View {
+        AddRecipeView()
+    }
 }
+
+extension AddRecipeView{
+    private func saveRecipe(){
+        let now = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-mm-dd"
+        let datePublished = dateFormatter.string(from: now)
+        
+        
+    }
+}
+

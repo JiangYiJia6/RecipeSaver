@@ -37,4 +37,5 @@ struct TabBar: View {
 
 #Preview {
     TabBar()
+        .environmentObject(Recipesviewmodel())
 }

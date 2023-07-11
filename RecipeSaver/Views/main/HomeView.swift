@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct HomeView: View {
+    @EnvironmentObject var recipeVM: Recipesviewmodel
     var body: some View {
         NavigationView {
             ScrollView{
-                RecipeList(recipe: Recipe.all)
+                RecipeList(recipe: recipeVM.recipes)
             }
             .navigationTitle("My Recipes")
         }
@@ -23,5 +24,6 @@ struct HomeView: View {
 struct HomeView_Previews: PreviewProvider{
     static var previews: some View{
         HomeView()
+            .environmentObject(Recipesviewmodel())
     }
 }
