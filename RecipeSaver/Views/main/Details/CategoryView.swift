@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct CategoryView: View {
-    @EnvironmentObject var recipeVM: Recipesviewmodel
+    @EnvironmentObject var recipesVM: Recipesviewmodel
     var category: Category
     
     //Computerd property
     var recipes: [Recipe] {
-        return recipeVM.recipes.filter{$0.category == category.rawValue}
+        return recipesVM.recipes.filter{$0.category == category.rawValue}
     }
     
     var body: some View {

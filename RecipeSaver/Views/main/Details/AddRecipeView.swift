@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AddRecipeView: View {
-    @EnvironmentObject var recipeVM: Recipesviewmodel
+    @EnvironmentObject var recipesVM: Recipesviewmodel
     @State private var name: String = ""
     @State private var selectedCategory: Category = Category.main
     @State private var description: String = ""
@@ -56,7 +56,7 @@ struct AddRecipeView: View {
                 
                 ToolbarItem {
                     NavigationLink(isActive: $navigateToRecipe) {
-                        RecipeView(recipe: Recipe.all.sorted{$0.datePublished > $1.datePublished}[0])
+                        RecipeView(recipe: recipesVM.recipes.sorted{$0.datePublished > $1.datePublished}[0])
                             .navigationBarBackButtonHidden(true)
                     } label: {
                         Button {
@@ -80,16 +80,20 @@ struct AddRecipeView: View {
 struct AddRecipeView_Previews: PreviewProvider {
     static var previews: some View {
         AddRecipeView()
+            .environmentObject(Recipesviewmodel())
     }
 }
-
-extension AddRecipeView{
-    private func saveRecipe(){
+extension AddRecipeView {
+    private func saveRecipe() {
         let now = Date()
-        let dateFormater = DateFormatter()
-        dateFormater.dateFormat = "yyyy-mm-dd"
-        let datePublished = dateFormater.string(from: now)
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-mm-dd"
+        
+        let datePublished = dateFormatter.string(from: now)
+        print(datePublished)
+        
         let recipe = Recipe(name: name, image: "", description: description, ingredients: ingridients, direction: directions, category: selectedCategory.rawValue, datePublished: datePublished, url: "")
-        recipeVM.addRecipe(recipe: recipe)
+        recipesVM.addRecipe(recipe: recipe)
     }
 }
